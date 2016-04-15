@@ -105,6 +105,22 @@ struct config get_config(char *filename)
         return conf;
 }
 
+
+int updateArduino(int port, char buf[])
+{
+	//RS232_SendByte(port, startbyte);
+	RS232_SendBuf(port, buf, strlen(buf) );
+	printf("sent: %s\n", buf);
+	printf("in length: %d\n", strlen(buf));
+}
+
+int startWinsock()
+{
+  WSADATA wsa;
+  return WSAStartup(MAKEWORD(2,0),&wsa);
+}
+
+
     
 int main()
 {
@@ -242,22 +258,6 @@ int main()
 		
 	
 	return 0;
-}
-
-
-
-int updateArduino(int port, char buf[])
-{
-	//RS232_SendByte(port, startbyte);
-	RS232_SendBuf(port, buf, strlen(buf) );
-	printf("sent: %s\n", buf);
-	printf("in length: %d\n", strlen(buf));
-}
-
-int startWinsock()
-{
-  WSADATA wsa;
-  return WSAStartup(MAKEWORD(2,0),&wsa);
 }
 
 
