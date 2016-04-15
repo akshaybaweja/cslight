@@ -1,0 +1,44 @@
+ {"provider": {
+                "name": "Counter-Strike: Global Offensive",
+                "appid": 730,
+                "version": 13530,
+                "steamid": "76561197970968022",
+                "timestamp": 1459542861
+        },
+        "map": {
+                "mode": "competitive",
+                "name": "de_overpass",
+                "phase": "live",
+                "round": 2,
+                "team_ct": {
+                        "score": 2
+                },
+                "team_t": {
+                        "score": 0
+                }
+        },
+        "round": {
+                "phase": "live"
+        },
+        "player": {
+                "steamid": "76561197970968022",
+                "name": "pheenyx",
+                "team": "T",
+                "activity": "playing",
+                "match_stats": {
+                        "kills": 0,
+                        "assists": 0,
+                        "deaths": 2,
+                        "mvps": 0,
+                        "score": 0
+                }
+        },
+        "previously": {
+                "round": {
+                        "phase": "freezetime"
+                }
+        },
+        "auth": {
+                "token": "Q79v5tcxVQ8u"
+        }
+}
