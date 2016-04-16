@@ -31,19 +31,19 @@ struct config
    char num_leds[MAXBUF];
    char static_rgb[MAXBUF];
    char	
-	crit_3[12],
-	crit_2[12], 
-	crit_1[12], 
-	crit0[12], 
-	crit1[12], 
-	crit2[12], 
-	crit3[12], 
-	crit4[12], 
-	crit5[12], 
-	crit6[12], 
-	crit7[12], 
-	crit8[12], 
-	crit9[12];
+	crit_3[13],
+	crit_2[13], 
+	crit_1[13], 
+	crit0[13], 
+	crit1[13], 
+	crit2[13], 
+	crit3[13], 
+	crit4[13], 
+	crit5[13], 
+	crit6[13], 
+	crit7[13], 
+	crit8[13], 
+	crit9[13];
 };
 
 struct config get_config(char *filename) 
@@ -57,44 +57,46 @@ struct config get_config(char *filename)
 
                 while(fgets(line, sizeof(line), file) != NULL)
                 {
-                        char *cfline;
+                        char *cfline, *dot;
                         cfline = strstr((char *)line,DELIM);
                         cfline = cfline + strlen(DELIM);
+                        dot = strstr(cfline,".");
     
                         if (i == 0){
-                                memcpy(conf.ip,cfline,strlen(cfline));
-                                printf("%s",conf.ip);
+                                memcpy(conf.ip,cfline,strlen(cfline)-1);
+                                printf("laenge csfline %d, laenge ip %d\n",strlen(cfline),strlen(conf.ip));
+                                printf("conf.ip = %s\n",conf.ip);
                         } else if (i == 1){
-                                memcpy(conf.port,cfline,strlen(cfline));
-                                printf("%s",conf.port);
+                                memcpy(conf.port,cfline,strlen(cfline)-1);
+                                printf("conf.port = %s\n",conf.port);
                         } else if (i == 2){
-                                memcpy(conf.comport,cfline,strlen(cfline));
-                                printf("%s",conf.comport);
+                                memcpy(conf.comport,cfline,strlen(cfline)-1);
+                                printf("conf.comport = %s\n",conf.comport);
                         } else if (i == 3){
-                                memcpy(conf.baudrate,cfline,strlen(cfline));
-                                printf("%s",conf.baudrate);
+                                memcpy(conf.baudrate,cfline,strlen(cfline)-1);
+                                printf("conf.baudrate = %s\n",conf.baudrate);
                         } else if (i == 4){
-                                memcpy(conf.num_leds,cfline,strlen(cfline));
-                                printf("%s",conf.num_leds);
+                                memcpy(conf.num_leds,cfline,strlen(cfline)-1);
+                                printf("conf.numleds = %s\n",conf.num_leds);
                         } else if (i == 5){
                                 memcpy(conf.static_rgb,cfline,strlen(cfline)-1);
-                                printf("%s",conf.static_rgb);
+                                printf("conf.static_rgb = %s|\n",conf.static_rgb);
 						}
 						// Colorsettings
 						switch (i) {
-							case 6 : memcpy(conf.crit_3,cfline,strlen(cfline)-1); break;
-							case 7 : memcpy(conf.crit_2,cfline,strlen(cfline)-1); break;
-							case 8 : memcpy(conf.crit_1,cfline,strlen(cfline)-1); break;
-							case 9 : memcpy(conf.crit0,cfline,strlen(cfline)-1); break;
-							case 10 : memcpy(conf.crit1,cfline,strlen(cfline)-1); break;
-							case 11 : memcpy(conf.crit2,cfline,strlen(cfline)-1); break;
-							case 12 : memcpy(conf.crit3,cfline,strlen(cfline)-1); break;
-							case 13 : memcpy(conf.crit4,cfline,strlen(cfline)-1); break;
-							case 14 : memcpy(conf.crit5,cfline,strlen(cfline)-1); break;
-							case 15 : memcpy(conf.crit6,cfline,strlen(cfline)-1); break;
-							case 16 : memcpy(conf.crit7,cfline,strlen(cfline)-1); break;
-							case 17 : memcpy(conf.crit8,cfline,strlen(cfline)-1); break;
-							case 18 : memcpy(conf.crit9,cfline,strlen(cfline)-1); break;
+							case 6 : memcpy(conf.crit_3,cfline,dot-cfline+1); conf.crit_3[dot-cfline+1] = '\0'; printf("farbe-3 = %s| in length %d\n",conf.crit_3,strlen(conf.crit_3)); break;
+							case 7 : memcpy(conf.crit_2,cfline,dot-cfline+1); conf.crit_2[dot-cfline+1] = '\0'; printf("farbe-2 = %s| in length %d\n",conf.crit_2,strlen(conf.crit_2)); break;
+							case 8 : memcpy(conf.crit_1,cfline,dot-cfline+1); conf.crit_1[dot-cfline+1] = '\0'; printf("farbe-1 = %s| in length %d\n",conf.crit_1,strlen(conf.crit_1)); break;
+							case 9 : memcpy(conf.crit0,cfline,dot-cfline+1); conf.crit0[dot-cfline+1] = '\0'; printf("farbe 0 = %s| in length %d\n",conf.crit0,strlen(conf.crit0)); break;
+							case 10 : memcpy(conf.crit1,cfline,dot-cfline+1); conf.crit1[dot-cfline+1] = '\0'; printf("farbe 1 = %s| in length %d\n",conf.crit1,strlen(conf.crit1));break;
+							case 11 : memcpy(conf.crit2,cfline,dot-cfline+1); conf.crit2[dot-cfline+1] = '\0'; printf("farbe 2 = %s| in length %d\n",conf.crit2,strlen(conf.crit2));break;
+							case 12 : memcpy(conf.crit3,cfline,dot-cfline+1); conf.crit3[dot-cfline+1] = '\0'; printf("farbe 3 = %s| in length %d\n",conf.crit3,strlen(conf.crit3));break;
+							case 13 : memcpy(conf.crit4,cfline,dot-cfline+1); conf.crit4[dot-cfline+1] = '\0'; printf("farbe 4 = %s| in length %d\n",conf.crit4,strlen(conf.crit4));break;
+							case 14 : memcpy(conf.crit5,cfline,dot-cfline+1); conf.crit5[dot-cfline+1] = '\0'; printf("farbe 5 = %s| in length %d\n",conf.crit5,strlen(conf.crit5));break;
+							case 15 : memcpy(conf.crit6,cfline,dot-cfline+1); conf.crit6[dot-cfline+1] = '\0'; printf("farbe 6 = %s| in length %d\n",conf.crit6,strlen(conf.crit6));break;
+							case 16 : memcpy(conf.crit7,cfline,dot-cfline+1); conf.crit7[dot-cfline+1] = '\0'; printf("farbe 7 = %s| in length %d\n",conf.crit7,strlen(conf.crit7));break;
+							case 17 : memcpy(conf.crit8,cfline,dot-cfline+1); conf.crit8[dot-cfline+1] = '\0'; printf("farbe 8 = %s| in length %d\n",conf.crit8,strlen(conf.crit8));break;
+							case 18 : memcpy(conf.crit9,cfline,dot-cfline+1); conf.crit9[dot-cfline+1] = '\0'; printf("farbe 9 = %s| in length %d\n",conf.crit9,strlen(conf.crit9));break;
 						}
                         i++;
                 } // End while
@@ -104,6 +106,22 @@ struct config get_config(char *filename)
 		} 
         return conf;
 }
+
+
+int updateArduino(int port, char buf[])
+{
+	//RS232_SendByte(port, startbyte);
+	RS232_SendBuf(port, buf, strlen(buf) );
+	printf("sent: %s\n", buf);
+	printf("in length: %d\n", strlen(buf));
+}
+
+int startWinsock()
+{
+  WSADATA wsa;
+  return WSAStartup(MAKEWORD(2,0),&wsa);
+}
+
 
     
 int main()
@@ -129,6 +147,32 @@ int main()
 	if (conf.static_rgb[0] != 0) {
 		printf("Static RGB-Light %i\n", conf.static_rgb[0]);
 		updateArduino(cport_nr, conf.static_rgb);
+        Sleep(200);
+        updateArduino(cport_nr, conf.crit_3);
+        Sleep(200);
+        updateArduino(cport_nr, conf.crit_2);
+        Sleep(200);
+        updateArduino(cport_nr, conf.crit_1);
+        Sleep(200);
+        updateArduino(cport_nr, conf.crit0);
+        Sleep(200);
+        updateArduino(cport_nr, conf.crit1);
+        Sleep(200);
+        updateArduino(cport_nr, conf.crit2);
+        Sleep(200);
+        updateArduino(cport_nr, conf.crit3);
+        Sleep(200);
+        updateArduino(cport_nr, conf.crit4);
+        Sleep(200);
+        updateArduino(cport_nr, conf.crit5);
+        Sleep(200);
+        updateArduino(cport_nr, conf.crit6);
+        Sleep(200);
+        updateArduino(cport_nr, conf.crit7);
+        Sleep(200);
+        updateArduino(cport_nr, conf.crit8);
+        Sleep(200);
+        updateArduino(cport_nr, conf.crit9);
 	}
 	
 	/* --- Socket --- */
@@ -179,7 +223,7 @@ int main()
 	}
 	else
 	{
-		printf("Verbunden mit 127.0.0.1..\n");
+		printf("Verbunden mit %s:%s.\n",conf.ip,conf.port);
 	}
 
 	
@@ -242,22 +286,6 @@ int main()
 		
 	
 	return 0;
-}
-
-
-
-int updateArduino(int port, char buf[])
-{
-	//RS232_SendByte(port, startbyte);
-	RS232_SendBuf(port, buf, strlen(buf) );
-	printf("sent: %s\n", buf);
-	printf("in length: %d\n", strlen(buf));
-}
-
-int startWinsock()
-{
-  WSADATA wsa;
-  return WSAStartup(MAKEWORD(2,0),&wsa);
 }
 
 
