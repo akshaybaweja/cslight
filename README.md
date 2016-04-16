@@ -4,7 +4,7 @@
 ## Requirements
 
 - Arduino (e. g. Uno, Nano)
-- SMD RBG LED-Strip (tested with WS2812, WS2801 probaly). You can choose the amount of LEDs (Note: more than 20 LEDs may need an additional power supply)
+- SMD RBG LED-Strip (tested with WS2812, WS2801 probably). You can choose the amount of LEDs (Note: more than 20 LEDs may need an additional power supply)
 - a few jumper wires
 - USB cable
 - uses http://www.teuniz.net/RS-232/
