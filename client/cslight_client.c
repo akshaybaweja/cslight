@@ -114,10 +114,10 @@ struct config get_config(char *filename)
 }
 
 
-int updateArduino(int port, char buf[])
+void updateArduino(int port, char buf[])
 {
 	//RS232_SendByte(port, startbyte);
-	RS232_SendBuf(port, buf, strlen(buf) );
+	RS232_SendBuf(port, (unsigned char*)buf, strlen(buf) );
 	printf("sent: %s\n", buf);
 	printf("in length: %d\n", strlen(buf));
 }
@@ -185,13 +185,13 @@ int main()
 	long rc;
 	SOCKET s;
 	SOCKADDR_IN addr;
-	uint8_t sendbuf[256], recvbuf[256];
+	char sendbuf[256], recvbuf[256];
 
 	/* init Winsock and check for error*/
 	rc=startWinsock();
 	if(rc!=0)
 	{
-		printf("Error: startWinsock, error code: %d\n",rc);
+		printf("Error: startWinsock, error code: %ld\n",rc);
 		return 1;
 	}
 	else
