@@ -10,10 +10,10 @@
 char recvChar;
 String recvString;  
 
-uint8_t         // Globale Variablen für aktuelles Farbsetting
-  rotwert,      
-  gruenwert, 
-  blauwert;
+uint8_t         // values for current color
+  current_red,      
+  current_green, 
+  current_blue;
 
 Adafruit_NeoPixel strip = Adafruit_NeoPixel(NUMBER_OF_LEDS, PIN, NEO_GRB + NEO_KHZ800);
 
@@ -30,62 +30,50 @@ void setup() {
 
 void loop() {     
   
-    String recvString = "";               // String für nächsten Einlesevorgang leeren
+    String recvString = "";               // clear string for next reading
     recvChar = 0;
     
     // Eingabe vorhanden?
     if (Serial.available() > 0) {
         while ((Serial.available() > 0) && (recvChar != '.'))
         {
-          recvChar = Serial.read();    //Lese jedes Zeichen einzeln ein
-          recvString.concat(recvChar);      //und konkatiniere den String damit
+          recvChar = Serial.read();     //read every character
+          recvString.concat(recvChar);  //and concat to string complete string, until dot found
           delay(1);
         }     
         Serial.println(recvString);
-        farbStringeingabe(recvString);      // Zerlegt übegebenen String in Farbwerte und legt diese in die globalen Farbvariablen
-        setzeFarben(0);            // Setzt die LEDs auf globale Farbvariablen
-       Serial.flush();          // Leeren des Buffers, sicherheitshalber
+        setCurrentColor(recvString);
+        refreshStrip(0);            
+       Serial.flush();          
       }
               
 }
 
-void farbStringeingabe(String farbstring) {                       // Zerlegt übegebenen String anhand der Bindestriche in einzelne
-  uint8_t p_rotwert=0, p_gruenwert = 0, p_blauwert = 0, p_pruef;    // Farbwerte und legt sie global ab
+void setCurrentColor(String colorstring) {           // seperate the rescieved string by dashes end set global current-colors
+  uint8_t p_red=0, p_green = 0, p_blue = 0; 
+      
+  p_red = stringToInt((colorstring.substring(0,colorstring.indexOf('-'))));                                     // first value
+  p_green = stringToInt((colorstring.substring(colorstring.indexOf('-')+1,colorstring.lastIndexOf('-'))));  // second value
+  p_blue = stringToInt((colorstring.substring(colorstring.lastIndexOf('-')+1,colorstring.indexOf('.'))));   // third value
     
-  p_rotwert = stringToInt((farbstring.substring(0,farbstring.indexOf('-'))));
-  p_gruenwert = stringToInt((farbstring.substring(farbstring.indexOf('-')+1,farbstring.lastIndexOf('-'))));
-  p_blauwert = stringToInt((farbstring.substring(farbstring.lastIndexOf('-')+1,farbstring.indexOf('.'))));
-  //p_pruef = stringToInt((farbstring.substring(farbstring.indexOf('.')+1,farbstring.lastIndexOf('.'))));
+  current_red=p_red;          // set globals
+  current_green=p_green;
+  current_blue=p_blue;
   
-//  if ((p_rotwert + p_gruenwert + p_blauwert) % 9 == p_pruef) {
-    rotwert=p_rotwert;
-    gruenwert=p_gruenwert;
-    blauwert=p_blauwert;
-  //} else { blueToothSerial.println("Modulo abweichend" + p_pruef); Serial.println("MODULO ABWEICHEN"); }
 }
 
 
-void setzeFarben(uint8_t refreshtempo) {
-    // Serial.println(rotwert);
- //   Serial.println(gruenwert);
-  //   Serial.println(blauwert);
-   
-  
-   for (int i = 0; i < NUMBER_OF_LEDS; i++) {
-    
-     strip.setPixelColor(i, rotwert, gruenwert, blauwert);
-     delay(refreshtempo);
+void refreshStrip(uint8_t refreshdelay) {    // send current-colors to LED-Strip
+ 
+    for (int i = 0; i < NUMBER_OF_LEDS; i++) {
+     strip.setPixelColor(i, current_red, current_green, current_blue);
+     delay(refreshdelay);
    }
    strip.show();      
 }
 
-
-
-int stringToInt(String string){        // StrToInt-Funktion
+int stringToInt(String string){        // StrToInt-Function
   char char_string[string.length()+1];
   string.toCharArray(char_string, string.length()+1);
     return atoi(char_string);
 }
- 
-        
-
